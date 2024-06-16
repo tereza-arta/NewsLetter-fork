@@ -15,8 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Docker build 
-        run : docker build -t myimage:latest . 
+        run : docker build myimage . 
       - name: Docker run
-        run:  docker run -d -p 3000:8080 --name dev-${{ env.SHA }} myimage:latest
+        run:  docker run -d -p 3000:8080 --name dev-${{ env.SHA }} myimage
+      - name: Push image on registry
+        run : |
+          docker login -u terezabisharyan -p ${{ secrets.DOCKER_HUB_PSW }}    
+          docker push terezabisharyan/myimage:$SHA
 
 
