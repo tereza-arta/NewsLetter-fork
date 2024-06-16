@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apt install nodejs && \
+RUN sudo apt install nodejs && \
     npm i node && \
     npm i express && \
     npm i body-parser && \
