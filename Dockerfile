@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm install && \
+RUN npm i && \
     npm i node && \
     npm i express && \
     npm i body-parser && \
