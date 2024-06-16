@@ -6,5 +6,6 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apt-get -y update
-RUN apt-get -y install npm
+RUN npm i express && \
+    npm i body-parser && \
+    npm i requests
