@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm i node
+RUN npm install npm@5.3.0
