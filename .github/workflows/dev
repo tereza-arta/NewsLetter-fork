@@ -1,1 +1,17 @@
+name: For dev environment
+
+on: push
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Docker build 
+      run : docker build -t myimage:latest . 
+    - name: Docker run
+      run:  docker run -d --name dev -p 3000:8080 myimage:latest
+
 
