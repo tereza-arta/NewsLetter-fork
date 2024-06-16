@@ -17,6 +17,6 @@ jobs:
       - name: Docker build 
         run : docker build -t myimage:latest . 
       - name: Docker run
-        run:  docker run -d --name dev-${{ env.SHA }} -p 3000:8080 myimage:latest
+        run:  docker run -d -p 3000:8080 --name dev-${{ env.SHA }} myimage:latest
 
 
