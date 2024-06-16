@@ -6,5 +6,4 @@ WORKDIR /app
 
 COPY . /app
 
-RUN apt-get install -y nodejs \
-    npm
+RUN apt-get install -y nodejs
