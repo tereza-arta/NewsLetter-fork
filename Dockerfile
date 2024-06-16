@@ -1,12 +1,12 @@
 FROM ubuntu
 
-USER root
+USER 0
 
 WORKDIR /app
 
 COPY . /app
 
-RUN sudo apt install nodejs && \
+RUN apt install nodejs && \
     npm i node && \
     npm i express && \
     npm i body-parser && \
