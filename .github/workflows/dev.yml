@@ -9,7 +9,7 @@ jobs:
   build:
     env:
       SHA: ${{ github.sha }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
