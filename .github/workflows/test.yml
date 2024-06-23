@@ -1,0 +1,21 @@
+name: For Testing
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    env: 
+      SHA: ${{ github.sha }}
+  
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+     
+      - name: Docker pull
+        run : docker pull ${{secrets.HUB_UNAME}}/myimage
+        
+      - name: Docker run  
+        run : docker run -d --name test_${{env.SHA}} -p 8082:3000 ${{secrets.HUB_UNAME}}/myimage
+  
