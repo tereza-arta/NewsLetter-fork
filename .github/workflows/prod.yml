@@ -1,0 +1,22 @@
+name: For Production
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    env: 
+      VERSION: ${{ github.event.release.name }}
+  
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Docker pull
+        run : docker pull ${{secrets.HUB_UNAME}}/myimage
+        
+      - name: Docker run  
+        run : docker run -d --name prod_${{env.VERSION}} -p 8084:3000 ${{secrets.HUB_UNAME}}/myimage
