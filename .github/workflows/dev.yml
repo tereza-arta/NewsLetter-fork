@@ -24,6 +24,6 @@ jobs:
       - name: Push image on registry
         run : |
           docker login -u terezabisharyan -p ${{ secrets.HUB_PSW }}    
-          docker push terezabisharyan/myimage
+          docker push terezabisharyan/myimage:v1
 
 
