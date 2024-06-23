@@ -1,4 +1,4 @@
-name: For dev environment
+name: For dev0 environment
 
 on: workflow_dispatch
 
