@@ -1,11 +1,11 @@
-FROM ubuntu
-
-USER 0
+FROM node
 
 WORKDIR /app
 
-COPY . /app
+COPY . .
 
-RUN npm i express && \
-    npm i body-parser && \
-    npm i requests
+RUN npm install
+
+CMD ["node", "app.js"]
+
+EXPOSE 3000
