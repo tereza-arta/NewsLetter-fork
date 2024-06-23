@@ -1,61 +1,53 @@
-//jshint esversion: 6
 const express = require('express');
-const bodyParser = require('body-parser');
-const request = require('request');
-const https = require('https');
 const app = express();
+const request = require('request');
+const wikip = require('wiki-infobox-parser');
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended:true}));
+//ejs
+app.set("view engine", 'ejs');
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname+"/signup.html")
-})
+//routes
+app.get('/', (req,res) =>{
+    res.render('index');
+});
 
-app.post('/', (req, res) => {
-  const firstname = req.body.fname;
-  const lastname = req.body.lname;
-  const email = req.body.email;
-  const data = {
-    members: [
-      {
-        email_address: email,
-        status: "subscribed",
-        merge_fields: 
-        {
-          FNAME: firstname,
-          LNAME: lastname
-        }
-      }
-    ]
-  };
-  const jsondata = JSON.stringify(data);
-  const url = "https://us21.api.mailchimp.com/3.0/lists/06ef24c1ab"
-  
-  const options = {
-    method: "POST",
-    auth: "harsh1:0cda2c76c3f6fa197de6f2c1a3790cb6-us21"
-  };
-    const request = https.request(url, options, function(response){
-      
-      if(response.statusCode === 200){
-        res.sendFile(__dirname+"/success.html");
-      } 
-      else{
-        res.sendFile(__dirname+"/failure.html");
-      }
-      
-      response.on("data", function(data){
-      console.log(JSON.parse(data));
+app.get('/index', (req,response) =>{
+    let url = "https://en.wikipedia.org/w/api.php"
+    let params = {
+        action: "opensearch",
+        search: req.query.person,
+        limit: "1",
+        namespace: "0",
+        format: "json"
+    }
+
+    url = url + "?"
+    Object.keys(params).forEach( (key) => {
+        url += '&' + key + '=' + params[key]; 
     });
-  });
-  request.write(jsondata);
-  request.end();
+
+    //get wikip search string
+    request(url,(err,res, body) =>{
+        if(err) {
+            response.redirect('404');
+        }
+            result = JSON.parse(body);
+            x = result[3][0];
+            x = x.substring(30, x.length); 
+            //get wikip json
+            wikip(x , (err, final) => {
+                if (err){
+                    response.redirect('404');
+                }
+                else{
+                    const answers = final;
+                    response.send(answers);
+                }
+            });
+    });
+
+    
 });
 
-app.listen(3000, () => {
-  console.log(`Example app listening on port 3000`)
-});
-
-//Unique ID for Audience -- 06ef24c1ab
-//API Key -- 0cda2c76c3f6fa197de6f2c1a3790cb6-us21
+//port
+app.listen(3000, console.log("Listening at port 3000..."))
